@@ -1,181 +1,171 @@
-# Student Course Management System 🎓
+# Student Course Management System
 
-A backend REST API application for managing student information using Java, Spring Boot, MySQL, Spring Data JPA, and Hibernate.
+A backend application built using Java and Spring Boot to manage student information through REST APIs and a MySQL database.
 
-## 🚀 Features
+The application provides APIs to create, retrieve, update, and delete student records. It follows a Controller-Service-Repository architecture and uses Spring Data JPA and Hibernate for database communication.
 
-* ✅ Add a new student
-* ✅ Get all students
-* ✅ Get a student by ID
-* ✅ Update student information
-* ✅ Delete a student
-* ✅ Store student data in MySQL
-* ✅ RESTful API endpoints
-* ✅ 404 error handling for students that do not exist
-* ✅ Controller-Service-Repository architecture
+## Architecture
 
-## 🛠️ Technologies Used
+```text
+                    REST API Request
+                           |
+                           v
+                      Postman / Client
+                           |
+                           v
+                  +-------------------+
+                  | StudentController |
+                  +-------------------+
+                           |
+                           v
+                  +-------------------+
+                  |   StudentService |
+                  +-------------------+
+                           |
+                           v
+                  +-------------------+
+                  | StudentRepository |
+                  +-------------------+
+                           |
+                           v
+                 Spring Data JPA
+                           |
+                           v
+                      Hibernate
+                           |
+                           v
+                    +-------------+
+                    |    MySQL    |
+                    | student_    |
+                    | management  |
+                    +-------------+
+```
+
+## Tech Stack
 
 * Java 17
 * Spring Boot
-* Spring Web
+* Spring Web / REST API
 * Spring Data JPA
 * Hibernate
 * MySQL
 * Maven
 * Postman
-* Git & GitHub
-* VS Code
+* Git
+* GitHub
+* Visual Studio Code
 
-## 🏗️ Project Architecture
+## Project Features
 
-```text
-Client / Postman
-       ↓
-StudentController
-       ↓
-StudentService
-       ↓
-StudentRepository
-       ↓
-Spring Data JPA / Hibernate
-       ↓
-MySQL Database
-```
+The application provides the following student management operations:
 
-### Layers
+* Create a new student
+* View all students
+* View a student by ID
+* Update student information
+* Delete a student
+* Handle requests for students that do not exist
+* Store student information permanently in MySQL
 
-**Controller**
+## Student Data
 
-Handles HTTP requests such as GET, POST, PUT, and DELETE.
+Each student record contains:
 
-**Service**
+* Student ID
+* Name
+* Email
+* Course
 
-Contains the business logic of the application.
-
-**Repository**
-
-Communicates with the MySQL database using Spring Data JPA.
-
-**Model**
-
-Represents the Student entity stored in the database.
-
-## 📂 Project Structure
+Example:
 
 ```text
-studentcoursemanagement
-│
-├── src
-│   ├── main
-│   │   ├── java
-│   │   │   └── com
-│   │   │       └── vineela
-│   │   │           └── studentcoursemanagement
-│   │   │               ├── controller
-│   │   │               │   ├── HomeController.java
-│   │   │               │   └── StudentController.java
-│   │   │               │
-│   │   │               ├── model
-│   │   │               │   └── Student.java
-│   │   │               │
-│   │   │               ├── repository
-│   │   │               │   └── StudentRepository.java
-│   │   │               │
-│   │   │               ├── service
-│   │   │               │   └── StudentService.java
-│   │   │               │
-│   │   │               └── StudentcoursemanagementApplication.java
-│   │   │
-│   │   └── resources
-│   │       └── application.properties
-│   │
-│   └── test
-│
-├── pom.xml
-├── mvnw
-├── mvnw.cmd
-├── .gitignore
-└── README.md
+ID      Name       Email                  Course
+---------------------------------------------------------------
+2       Blessy     blessy@gmail.com       Artificial Intelligence
 ```
 
-## 🗄️ Database
+## REST API Endpoints
 
-The application uses MySQL.
+| HTTP Method | Endpoint         | Description                |
+| ----------- | ---------------- | -------------------------- |
+| GET         | `/students`      | Get all students           |
+| GET         | `/students/{id}` | Get student by ID          |
+| POST        | `/students`      | Add a new student          |
+| PUT         | `/students/{id}` | Update an existing student |
+| DELETE      | `/students/{id}` | Delete a student           |
 
-### Database
+## API Operations
 
-```text
-student_management
-```
+### GET - Get All Students
 
-### Table
-
-```text
-students
-```
-
-### Student fields
-
-| Field  | Type    |
-| ------ | ------- |
-| id     | BIGINT  |
-| name   | VARCHAR |
-| email  | VARCHAR |
-| course | VARCHAR |
-
-## 🌐 REST API Endpoints
-
-### Get all students
+Retrieves all student records stored in the MySQL database.
 
 ```http
 GET /students
 ```
 
-Returns all students stored in the database.
+Example response:
 
-### Get student by ID
-
-```http
-GET /students/{id}
+```json
+[
+    {
+        "id": 2,
+        "name": "Blessy",
+        "email": "blessy@gmail.com",
+        "course": "Artificial Intelligence and Data Science"
+    }
+]
 ```
 
-Example:
+### GET - Get Student by ID
+
+Retrieves a specific student using the student ID.
 
 ```http
 GET /students/2
 ```
 
-### Add a student
-
-```http
-POST /students
-```
-
-Example request:
+Example response:
 
 ```json
 {
-    "id": 4,
+    "id": 2,
     "name": "Blessy",
     "email": "blessy@gmail.com",
     "course": "Artificial Intelligence and Data Science"
 }
 ```
 
-### Update a student
+### POST - Add Student
+
+Creates a new student record.
 
 ```http
-PUT /students/{id}
+POST /students
 ```
 
-Example:
+Request body:
+
+```json
+{
+    "id": 4,
+    "name": "Blessy Test",
+    "email": "blesstest@gmail.com",
+    "course": "Artificial Intelligence"
+}
+```
+
+The new student is stored in the MySQL database.
+
+### PUT - Update Student
+
+Updates an existing student's information.
 
 ```http
 PUT /students/4
 ```
 
-Example request:
+Request body:
 
 ```json
 {
@@ -185,25 +175,25 @@ Example request:
 }
 ```
 
-### Delete a student
+The existing record is updated in the database.
 
-```http
-DELETE /students/{id}
-```
+### DELETE - Delete Student
 
-Example:
+Deletes a student using the student ID.
 
 ```http
 DELETE /students/4
 ```
 
-## ❌ Error Handling
-
-If a student ID does not exist, the application returns:
+Example response:
 
 ```text
-404 NOT_FOUND
+Student deleted successfully
 ```
+
+## Error Handling
+
+The application handles requests for students that do not exist.
 
 For example:
 
@@ -211,53 +201,231 @@ For example:
 GET /students/999
 ```
 
-The application responds with a student-not-found error.
+returns:
 
-## 📮 API Testing
+```text
+404 Not Found
+```
+
+with a message indicating that the student was not found.
+
+This error handling is implemented in the Service layer using `ResponseStatusException`.
+
+## Database
+
+The application uses MySQL for persistent data storage.
+
+Database:
+
+```text
+student_management
+```
+
+Table:
+
+```text
+students
+```
+
+Table structure:
+
+```text
++-------+--------------+
+| Field | Type         |
++-------+--------------+
+| id    | BIGINT       |
+| name  | VARCHAR(100)  |
+| email | VARCHAR(150)  |
+| course| VARCHAR(100)  |
++-------+--------------+
+```
+
+Spring Data JPA and Hibernate are used to communicate between the Spring Boot application and MySQL.
+
+## JPA Entity
+
+The `Student` class is mapped to the `students` database table using JPA annotations.
+
+```text
+Student
+   |
+   +-- id
+   +-- name
+   +-- email
+   +-- course
+```
+
+The `id` field is used as the primary key.
+
+## Project Structure
+
+```text
+studentcoursemanagement/
+│
+├── .mvn/
+│   └── wrapper/
+│
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── vineela/
+│   │   │           └── studentcoursemanagement/
+│   │   │               │
+│   │   │               ├── controller/
+│   │   │               │   ├── HomeController.java
+│   │   │               │   └── StudentController.java
+│   │   │               │
+│   │   │               ├── model/
+│   │   │               │   └── Student.java
+│   │   │               │
+│   │   │               ├── repository/
+│   │   │               │   └── StudentRepository.java
+│   │   │               │
+│   │   │               ├── service/
+│   │   │               │   └── StudentService.java
+│   │   │               │
+│   │   │               └── StudentcoursemanagementApplication.java
+│   │   │
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       └── application-example.properties
+│   │
+│   └── test/
+│       └── java/
+│
+├── .gitignore
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+└── README.md
+```
+
+## Application Flow
+
+When a client sends a request, it follows this flow:
+
+```text
+Client
+  |
+  v
+StudentController
+  |
+  | HTTP Request
+  v
+StudentService
+  |
+  | Business Logic
+  v
+StudentRepository
+  |
+  | JPA
+  v
+Hibernate
+  |
+  | SQL
+  v
+MySQL
+```
+
+For example, when adding a student:
+
+```text
+POST /students
+       |
+       v
+StudentController
+       |
+       v
+StudentService
+       |
+       v
+StudentRepository
+       |
+       v
+MySQL
+```
+
+## Separation of Responsibilities
+
+### Controller
+
+The Controller handles HTTP requests and responses.
+
+```text
+StudentController
+```
+
+It provides the REST endpoints for student operations.
+
+### Service
+
+The Service layer contains the application logic.
+
+```text
+StudentService
+```
+
+It handles operations such as:
+
+* Finding students
+* Adding students
+* Updating students
+* Deleting students
+* Handling student-not-found errors
+
+### Repository
+
+The Repository communicates with the database.
+
+```text
+StudentRepository
+```
+
+It extends:
+
+```java
+JpaRepository<Student, Long>
+```
+
+This provides database operations without writing SQL for every CRUD operation.
+
+## Testing
 
 The REST APIs were tested using Postman.
 
 The following operations were tested:
 
-```text
-POST  → Create student
-GET   → Retrieve students
-GET   → Retrieve student by ID
-PUT   → Update student
-DELETE → Delete student
-```
+* GET all students
+* GET student by ID
+* POST student
+* PUT student
+* DELETE student
+* GET request for a non-existing student
 
-## ⚙️ How to Run
+Database records were also verified using MySQL.
 
-### 1. Clone the repository
+## Build and Run
+
+Clone the repository:
 
 ```bash
 git clone https://github.com/Vineela9999/student-course-management.git
 ```
 
-### 2. Open the project
+Move into the project directory:
 
-Open the project in VS Code or another Java IDE.
-
-### 3. Configure MySQL
-
-Create the database:
-
-```sql
-CREATE DATABASE student_management;
+```bash
+cd student-course-management
 ```
 
-Configure the database connection in:
+Build the project:
 
-```text
-src/main/resources/application.properties
+```bash
+.\mvnw.cmd clean compile
 ```
 
-Do not commit your real database password to GitHub.
-
-### 4. Run the application
-
-Using Maven Wrapper:
+Run the application:
 
 ```bash
 .\mvnw.cmd spring-boot:run
@@ -269,66 +437,102 @@ The application runs on:
 http://localhost:8080
 ```
 
-## 🔍 Application Test
+## Database Configuration
 
-Open:
+Create a MySQL database:
 
-```text
-http://localhost:8080/
+```sql
+CREATE DATABASE student_management;
 ```
 
-Expected response:
+Create the students table:
 
-```text
-Student Course Management Application is running!
+```sql
+CREATE TABLE students (
+    id BIGINT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(150),
+    course VARCHAR(100)
+);
 ```
 
-## 📸 API Demo
+Configure the database connection in the application's local configuration.
 
-Screenshots of the Postman API testing can be added here.
+Example:
 
-### GET All Students
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/student_management
+spring.datasource.username=root
+spring.datasource.password=YOUR_MYSQL_PASSWORD
 
-*Add screenshot here.*
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+```
 
-### POST Student
+**Do not commit real database passwords or credentials to GitHub.**
 
-*Add screenshot here.*
+## Key Engineering Concepts Demonstrated
 
-### PUT Student
+* REST API development
+* HTTP methods
+* CRUD operations
+* Spring Boot application development
+* Controller-Service-Repository architecture
+* Dependency Injection
+* Spring Data JPA
+* Hibernate ORM
+* MySQL database integration
+* Entity mapping
+* Database persistence
+* Exception handling
+* API testing using Postman
+* Maven project management
+* Git version control
+* GitHub repository management
 
-*Add screenshot here.*
+## What I Learned
 
-### DELETE Student
+Through this project, I learned how to:
 
-*Add screenshot here.*
+* Build REST APIs using Spring Boot
+* Connect a Java application with MySQL
+* Use Spring Data JPA and Hibernate
+* Implement CRUD operations
+* Separate application responsibilities using layers
+* Handle errors for missing records
+* Test APIs using Postman
+* Use Git for version control
+* Upload and manage a project using GitHub
 
-## 🎯 What I Learned
+## Project Outcome
 
-Through this project, I learned:
+The Student Course Management System successfully provides a REST-based backend for managing student information.
 
-* How Spring Boot applications are structured
-* How REST APIs work
-* How HTTP methods are used
-* How Controller, Service, and Repository layers work together
-* How Spring Data JPA communicates with a database
-* How Hibernate handles persistence
-* How to connect Spring Boot with MySQL
-* How to test APIs using Postman
-* How to handle REST API errors
-* How to use Git and GitHub for version control
+The project demonstrates the complete flow from:
 
-## 🎓 Interview Explanation
+```text
+REST API Request
+       ↓
+Spring Boot
+       ↓
+Controller
+       ↓
+Service
+       ↓
+Repository
+       ↓
+JPA / Hibernate
+       ↓
+MySQL
+```
 
-> My project is a Student Course Management System developed using Java, Spring Boot, REST APIs, and MySQL. It allows users to add, view, update, and delete student information. I used a Controller-Service-Repository architecture. The Controller handles HTTP requests, the Service contains the business logic, and the Repository communicates with MySQL using Spring Data JPA and Hibernate. I tested the REST APIs using Postman and implemented error handling for students that do not exist.
+The project gave me practical experience in backend development, database integration, REST API design, testing, and version control.
 
-## 👩‍💻 Author
+## Author
 
 **Kamalakunta Vineela**
 
 GitHub:
+
 https://github.com/Vineela9999
-
----
-
-⭐ If you find this project useful, feel free to explore the repository.
